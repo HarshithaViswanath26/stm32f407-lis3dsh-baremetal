@@ -1,0 +1,15 @@
+# Build output directories
+Debug/
+Release/
+
+# Object and dependency files
+*.o
+*.d
+
+# Binary output files
+*.elf
+*.bin
+
+
+# commit your source code, ignore your build output.
+# avoids those all multiple O/P files that are produced over every build/run
