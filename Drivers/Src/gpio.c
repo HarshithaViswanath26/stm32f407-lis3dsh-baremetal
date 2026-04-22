@@ -32,17 +32,18 @@ void GPIO_Init(GPIO_Handle_t* pHandle)
     pHandle->GPIOx->PUPDR |= temp;
     temp = 0;
 }
-void GPIO_Led_ON(GPIO_Handle_t* pHandle, FunctionalState_t state)
+
+void GPIO_Led_ON(GPIO_Handle_t* pHandle)
 {
-	if(state == ENABLE)
-	{
-		pHandle->GPIOx->ODR |= (1 << pHandle->pinConfig.pinNum);
-	}
-	else
-	{
-		pHandle->GPIOx->ODR &= ~(1 << pHandle->pinConfig.pinNum);
-	}
+
+	pHandle->GPIOx->ODR |= (1 << pHandle->pinConfig.pinNum);
 }
+
+void GPIO_Led_OFF(GPIO_Handle_t* pHandle)
+{
+	pHandle->GPIOx->ODR &= ~(1 << pHandle->pinConfig.pinNum);
+}
+
 void GPIO_Toggle(GPIO_Handle_t* pHandle)
 {
 	pHandle->GPIOx->ODR ^= (1 << pHandle->pinConfig.pinNum);

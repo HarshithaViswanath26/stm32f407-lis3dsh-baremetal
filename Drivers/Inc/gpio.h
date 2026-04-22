@@ -123,7 +123,8 @@ typedef struct
 
 void GPIO_Init(GPIO_Handle_t* pHandle);
 //void GPIO_Clk_Enable();
-void GPIO_Led_ON(GPIO_Handle_t* pHandle, FunctionalState_t state);
+void GPIO_Led_ON(GPIO_Handle_t* pHandle);
+void GPIO_Led_OFF(GPIO_Handle_t* pHandle);
 void GPIO_Toggle(GPIO_Handle_t* pHandle);
 
 

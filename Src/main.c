@@ -29,24 +29,65 @@ void delay()
 }
 int main(void)
 {
-	GPIO_Handle_t led;
-	led.GPIOx = GPIOD;
-	led.pinConfig.mode = output;
-	led.pinConfig.ospeed = high;
-	led.pinConfig.otype = pushPull;
-	led.pinConfig.pinNum = GPIOPin12;
-	led.pinConfig.pupdtype = noPupd;
+	GPIO_Handle_t ledGreen, ledOrange, ledRed, ledBlue;
+
+	ledGreen.GPIOx = GPIOD;
+	ledGreen.pinConfig.mode = output;
+	ledGreen.pinConfig.ospeed = high;
+	ledGreen.pinConfig.otype = pushPull;
+	ledGreen.pinConfig.pinNum = GPIOPin12;
+	ledGreen.pinConfig.pupdtype = noPupd;
+
+	ledOrange.GPIOx = GPIOD;
+	ledOrange.pinConfig.mode = output;
+	ledOrange.pinConfig.ospeed = high;
+	ledOrange.pinConfig.otype = pushPull;
+	ledOrange.pinConfig.pinNum = GPIOPin13;
+	ledOrange.pinConfig.pupdtype = noPupd;
+
+	ledRed.GPIOx = GPIOD;
+	ledRed.pinConfig.mode = output;
+	ledRed.pinConfig.ospeed = high;
+	ledRed.pinConfig.otype = pushPull;
+	ledRed.pinConfig.pinNum = GPIOPin14;
+	ledRed.pinConfig.pupdtype = noPupd;
+
+	ledBlue.GPIOx = GPIOD;
+	ledBlue.pinConfig.mode = output;
+	ledBlue.pinConfig.ospeed = high;
+	ledBlue.pinConfig.otype = pushPull;
+	ledBlue.pinConfig.pinNum = GPIOPin15;
+	ledBlue.pinConfig.pupdtype = noPupd;
 
 	RCC_AHB1_init(GpioD, ENABLE);
 
-	GPIO_Init(&led);
-	//GPIO_Led_ON(&led, ENABLE);
+	GPIO_Init(&ledGreen);
+	GPIO_Init(&ledOrange);
+	GPIO_Init(&ledRed);
+	GPIO_Init(&ledBlue);
+
+	GPIO_Led_ON(&ledGreen);
+	delay();
+	GPIO_Led_ON(&ledOrange);
+	delay();
+	GPIO_Led_ON(&ledRed);
+	delay();
+	GPIO_Led_ON(&ledBlue);
+
+	delay();
+	GPIO_Led_OFF(&ledGreen);
+	delay();
+	GPIO_Led_OFF(&ledOrange);
+	delay();
+	GPIO_Led_OFF(&ledRed);
+	delay();
+	GPIO_Led_OFF(&ledBlue);
 
     /* Loop forever */
-	while(1)
+	/*while(1)
 	{
 		GPIO_Toggle(&led);
 		delay();
 
-	}
+	}*/
 }
