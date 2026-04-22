@@ -1,0 +1,2 @@
+../Drivers/Src/rcc.c:4:6:RCC_AHB1_init	2
+../Drivers/Src/rcc.c:10:6:RCC_AHB1_deinit	2

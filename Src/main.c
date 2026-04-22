@@ -17,13 +17,36 @@
  */
 
 #include <stdint.h>
+#include "rcc.h"
+#include "gpio.h"
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
-
+void delay()
+{
+	for(uint32_t i = 0; i<=100000; i++){}
+}
 int main(void)
 {
+	GPIO_Handle_t led;
+	led.GPIOx = GPIOD;
+	led.pinConfig.mode = output;
+	led.pinConfig.ospeed = high;
+	led.pinConfig.otype = pushPull;
+	led.pinConfig.pinNum = GPIOPin12;
+	led.pinConfig.pupdtype = noPupd;
+
+	RCC_AHB1_init(GpioD, ENABLE);
+
+	GPIO_Init(&led);
+	//GPIO_Led_ON(&led, ENABLE);
+
     /* Loop forever */
-	for(;;);
+	while(1)
+	{
+		GPIO_Toggle(&led);
+		delay();
+
+	}
 }
