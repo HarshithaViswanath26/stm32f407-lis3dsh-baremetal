@@ -1,2 +1,10 @@
-../Drivers/Src/rcc.c:4:6:RCC_AHB1_init	2
-../Drivers/Src/rcc.c:10:6:RCC_AHB1_deinit	2
+../Drivers/Src/rcc.c:4:6:RCC_AHB1_Init	2
+../Drivers/Src/rcc.c:10:6:RCC_AHB1_Deinit	2
+../Drivers/Src/rcc.c:16:6:RCC_APB1_Init	2
+../Drivers/Src/rcc.c:22:6:RCC_APB1_Deinit	2
+../Drivers/Src/rcc.c:28:6:RCC_APB2_Init	2
+../Drivers/Src/rcc.c:34:6:RCC_APB2_Deinit	2
+../Drivers/Src/rcc.c:41:10:RCC_GetPLLVal	1
+../Drivers/Src/rcc.c:46:10:RCC_GetAHBClk	7
+../Drivers/Src/rcc.c:85:10:RCC_GetAPB1Clk	4
+../Drivers/Src/rcc.c:110:10:RCC_GetAPB2Clk	4

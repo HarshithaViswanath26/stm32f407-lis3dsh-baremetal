@@ -31,6 +31,18 @@ void GPIO_Init(GPIO_Handle_t* pHandle)
     pHandle->GPIOx->GPIO_PUPDR &= ~((uint32_t)0x3 << (2 * pHandle->pinConfig.GPIO_pinNum));
     pHandle->GPIOx->GPIO_PUPDR |= temp;
     temp = 0;
+
+    // configure Alternate Functionality for a pin
+    if(pHandle->pinConfig.GPIO_mode == GPIO_alternate)
+    {
+    	pHandle->GPIOx->GPIO_MODER |= (pHandle->pinConfig.GPIO_mode << (2*pHandle->pinConfig.GPIO_pinNum));
+    	uint8_t reg = pHandle->pinConfig.GPIO_pinNum / 8;
+    	uint8_t bitPos = pHandle->pinConfig.GPIO_pinNum % 8;
+
+    	temp = (pHandle->pinConfig.GPIO_pinAltFunMode << (4*bitPos));
+    	pHandle->GPIOx->GPIO_AFR[reg] |= temp;
+    	temp = 0;
+    }
 }
 
 void GPIO_Led_ON(GPIO_Handle_t* pHandle)

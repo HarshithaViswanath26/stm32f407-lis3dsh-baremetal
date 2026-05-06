@@ -59,7 +59,7 @@ int main(void)
 	ledBlue.pinConfig.GPIO_pinNum = GPIOPin15;
 	ledBlue.pinConfig.GPIO_pupdtype = GPIO_noPupd;
 
-	RCC_AHB1_init(GpioD, ENABLE);
+	RCC_AHB1_Init(GpioD, ENABLE);
 
 	GPIO_Init(&ledGreen);
 	GPIO_Init(&ledOrange);

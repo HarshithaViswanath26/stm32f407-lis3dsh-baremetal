@@ -1,0 +1,8 @@
+../Drivers/Src/usart.c:12:6:USART_Init	16	static
+../Drivers/Src/usart.c:80:6:USART_DeInit	16	static
+../Drivers/Src/usart.c:106:6:USART_SetBaudRate	40	static
+../Drivers/Src/usart.c:166:9:USART_GetFlagStatus	16	static
+../Drivers/Src/usart.c:171:6:USART_ClearFlagStatus	16	static
+../Drivers/Src/usart.c:176:6:USART_EnableComm	16	static
+../Drivers/Src/usart.c:183:6:USART_SendData	40	static
+../Drivers/Src/usart.c:222:6:USART_ReceiveData	32	static

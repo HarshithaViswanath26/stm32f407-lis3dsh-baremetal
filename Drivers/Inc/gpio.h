@@ -112,6 +112,7 @@ typedef struct
 	GPIO_Ospeeds_t GPIO_ospeed;
 	GPIO_Pupdtypes_t GPIO_pupdtype;
 	uint8_t GPIO_pinNum;
+	uint8_t GPIO_pinAltFunMode;
 }GPIO_Config_t;
 
 typedef struct

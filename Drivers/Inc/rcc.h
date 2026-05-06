@@ -45,8 +45,8 @@ typedef enum
 	WWDG = 11,
 	SPI2 = 14,
 	SPI3 = 15,
-	USART2 = 17,
-	USART3 = 18,
+	Usart2 = 17,
+	Usart3 = 18,
 	UART4 = 19,
 	UART5 = 20,
 	I2C1 = 21,
@@ -62,8 +62,8 @@ typedef enum
 {
 	TIM1 = 0,
 	TIM8 = 1,
-	USART1 = 4,
-	USART6 = 5,
+	Usart1 = 4,
+	Usart6 = 5,
 	ADC1 = 8,
 	ADC2 = 9,
 	ADC3 = 10,
@@ -73,7 +73,7 @@ typedef enum
 	TIM9 = 16,
 	TIM10 = 17,
 	TIM11 = 18
-}APB2_peripherals_t;
+}APB2_Peripherals_t;
 
 
 typedef struct
@@ -92,6 +92,7 @@ typedef struct
 	volatile uint32_t RCC_AHB1ENR;
 	volatile uint32_t RCC_AHB2ENR;
 	volatile uint32_t RCC_AHB3ENR;
+	uint32_t Reserved6;
 	volatile uint32_t RCC_APB1ENR;
 	volatile uint32_t RCC_APB2ENR;
 	uint32_t Reserved2[2];
@@ -111,7 +112,23 @@ typedef struct
 
 #define RCC ((RCC_RegDef_t*) RCC_BASEADDR)
 
-void RCC_AHB1_init(AHB1_Peripherals_t peripheral, FunctionalState_t state);
-void RCC_AHB1_deinit(AHB1_Peripherals_t peripheral, FunctionalState_t state);
+static __attribute__((unused)) uint16_t AHBPrescalar[] = {2,4,8,16,64,128,256,512};
+static __attribute__((unused)) uint16_t APBxPrescalar[] = {2,4,8,16};
+
+
+void RCC_AHB1_Init(AHB1_Peripherals_t peripheral, FunctionalState_t state);
+void RCC_AHB1_Deinit(AHB1_Peripherals_t peripheral, FunctionalState_t state);
+
+void RCC_APB1_Init(APB1_Peripherals_t peripheral, FunctionalState_t state);
+void RCC_APB1_Deinit(APB1_Peripherals_t peripheral, FunctionalState_t state);
+
+void RCC_APB2_Init(APB2_Peripherals_t peripheral, FunctionalState_t state);
+void RCC_APB2_Deinit(APB2_Peripherals_t peripheral, FunctionalState_t state);
+
+
+uint32_t RCC_GetPLLVal(void);
+uint32_t RCC_GetAHBClk(void);
+uint32_t RCC_GetAPB1Clk(void);
+uint32_t RCC_GetAPB2Clk(void);
 
 #endif /*RCC_H*/
