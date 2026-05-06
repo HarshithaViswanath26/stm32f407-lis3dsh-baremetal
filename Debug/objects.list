@@ -3,7 +3,7 @@
 "./Drivers/Src/rcc.o"
 "./Drivers/Src/spi.o"
 "./Drivers/Src/usart.o"
+"./Src/spi_test.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
-"./Src/usart_test.o"
 "./Startup/startup_stm32f407vgtx.o"

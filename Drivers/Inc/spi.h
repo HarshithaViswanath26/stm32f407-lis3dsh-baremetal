@@ -14,6 +14,7 @@
 #include <stdint.h>
 
 #define SPI1_BASEADDR			(APB2_BASEADDR + 0x3000U)
+#define SPI2_BASEADDR			(APB1_BASEADDR + 0x3800U)
 
 typedef struct
 {
@@ -97,6 +98,7 @@ typedef enum
 }SPI_SCL_Speed_t;
 
 #define SPI1		((SPI_RegDef_t*)SPI1_BASEADDR)
+#define SPI2		((SPI_RegDef_t*)SPI2_BASEADDR)
 
 #define SPI_DISABLE					0
 #define SPI_ENABLE					1
@@ -113,7 +115,16 @@ typedef enum
 #define SPI_HALFDUPLEX_TX_ONLY			1
 
 
+#define SPI_RXNE_FLAG				(1U << 0)
+#define SPI_TXE_FLAG				(1U << 1)
+
 void SPI_Init(SPI_Handle_t* pHandle);
 
+void SPI_SendData(SPI_RegDef_t* pSPIx, uint8_t* pTXBuffer, uint32_t Len);
+void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRXBuffer, uint32_t Len);
+
+void SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+void SPI_CommunicationControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t* pSPIx, uint32_t flagName);
 
 #endif /* INC_SPI_H_ */
