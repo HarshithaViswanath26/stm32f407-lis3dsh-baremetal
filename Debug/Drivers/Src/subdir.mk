@@ -6,15 +6,24 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Drivers/Src/gpio.c \
-../Drivers/Src/rcc.c 
+../Drivers/Src/lis3dsh.c \
+../Drivers/Src/rcc.c \
+../Drivers/Src/spi.c \
+../Drivers/Src/usart.c 
 
 OBJS += \
 ./Drivers/Src/gpio.o \
-./Drivers/Src/rcc.o 
+./Drivers/Src/lis3dsh.o \
+./Drivers/Src/rcc.o \
+./Drivers/Src/spi.o \
+./Drivers/Src/usart.o 
 
 C_DEPS += \
 ./Drivers/Src/gpio.d \
-./Drivers/Src/rcc.d 
+./Drivers/Src/lis3dsh.d \
+./Drivers/Src/rcc.d \
+./Drivers/Src/spi.d \
+./Drivers/Src/usart.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -24,7 +33,7 @@ Drivers/Src/%.o Drivers/Src/%.su Drivers/Src/%.cyclo: ../Drivers/Src/%.c Drivers
 clean: clean-Drivers-2f-Src
 
 clean-Drivers-2f-Src:
-	-$(RM) ./Drivers/Src/gpio.cyclo ./Drivers/Src/gpio.d ./Drivers/Src/gpio.o ./Drivers/Src/gpio.su ./Drivers/Src/rcc.cyclo ./Drivers/Src/rcc.d ./Drivers/Src/rcc.o ./Drivers/Src/rcc.su
+	-$(RM) ./Drivers/Src/gpio.cyclo ./Drivers/Src/gpio.d ./Drivers/Src/gpio.o ./Drivers/Src/gpio.su ./Drivers/Src/lis3dsh.cyclo ./Drivers/Src/lis3dsh.d ./Drivers/Src/lis3dsh.o ./Drivers/Src/lis3dsh.su ./Drivers/Src/rcc.cyclo ./Drivers/Src/rcc.d ./Drivers/Src/rcc.o ./Drivers/Src/rcc.su ./Drivers/Src/spi.cyclo ./Drivers/Src/spi.d ./Drivers/Src/spi.o ./Drivers/Src/spi.su ./Drivers/Src/usart.cyclo ./Drivers/Src/usart.d ./Drivers/Src/usart.o ./Drivers/Src/usart.su
 
 .PHONY: clean-Drivers-2f-Src
 

@@ -32,32 +32,32 @@ int main(void)
 	GPIO_Handle_t ledGreen, ledOrange, ledRed, ledBlue;
 
 	ledGreen.GPIOx = GPIOD;
-	ledGreen.pinConfig.mode = output;
-	ledGreen.pinConfig.ospeed = high;
-	ledGreen.pinConfig.otype = pushPull;
-	ledGreen.pinConfig.pinNum = GPIOPin12;
-	ledGreen.pinConfig.pupdtype = noPupd;
+	ledGreen.pinConfig.GPIO_mode = GPIO_output;
+	ledGreen.pinConfig.GPIO_ospeed = GPIO_high;
+	ledGreen.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledGreen.pinConfig.GPIO_pinNum = GPIOPin12;
+	ledGreen.pinConfig.GPIO_pupdtype = GPIO_noPupd;
 
 	ledOrange.GPIOx = GPIOD;
-	ledOrange.pinConfig.mode = output;
-	ledOrange.pinConfig.ospeed = high;
-	ledOrange.pinConfig.otype = pushPull;
-	ledOrange.pinConfig.pinNum = GPIOPin13;
-	ledOrange.pinConfig.pupdtype = noPupd;
+	ledOrange.pinConfig.GPIO_mode = GPIO_output;
+	ledOrange.pinConfig.GPIO_ospeed = GPIO_high;
+	ledOrange.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledOrange.pinConfig.GPIO_pinNum = GPIOPin13;
+	ledOrange.pinConfig.GPIO_pupdtype = GPIO_noPupd;
 
 	ledRed.GPIOx = GPIOD;
-	ledRed.pinConfig.mode = output;
-	ledRed.pinConfig.ospeed = high;
-	ledRed.pinConfig.otype = pushPull;
-	ledRed.pinConfig.pinNum = GPIOPin14;
-	ledRed.pinConfig.pupdtype = noPupd;
+	ledRed.pinConfig.GPIO_mode = GPIO_output;
+	ledRed.pinConfig.GPIO_ospeed = GPIO_high;
+	ledRed.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledRed.pinConfig.GPIO_pinNum = GPIOPin14;
+	ledRed.pinConfig.GPIO_pupdtype = GPIO_noPupd;
 
 	ledBlue.GPIOx = GPIOD;
-	ledBlue.pinConfig.mode = output;
-	ledBlue.pinConfig.ospeed = high;
-	ledBlue.pinConfig.otype = pushPull;
-	ledBlue.pinConfig.pinNum = GPIOPin15;
-	ledBlue.pinConfig.pupdtype = noPupd;
+	ledBlue.pinConfig.GPIO_mode = GPIO_output;
+	ledBlue.pinConfig.GPIO_ospeed = GPIO_high;
+	ledBlue.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledBlue.pinConfig.GPIO_pinNum = GPIOPin15;
+	ledBlue.pinConfig.GPIO_pupdtype = GPIO_noPupd;
 
 	RCC_AHB1_init(GpioD, ENABLE);
 

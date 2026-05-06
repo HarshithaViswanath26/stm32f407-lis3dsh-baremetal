@@ -53,15 +53,15 @@
 
 typedef struct
 {
-	volatile uint32_t MODER;
-	volatile uint32_t OTYPER;
-	volatile uint32_t OSPEEDR;
-	volatile uint32_t PUPDR;
-	volatile uint32_t IDR;
-	volatile uint32_t ODR;
-	volatile uint32_t BSRR;
-	volatile uint32_t LCKR;
-	volatile uint32_t AFR[2];
+	volatile uint32_t GPIO_MODER;
+	volatile uint32_t GPIO_OTYPER;
+	volatile uint32_t GPIO_OSPEEDR;
+	volatile uint32_t GPIO_PUPDR;
+	volatile uint32_t GPIO_IDR;
+	volatile uint32_t GPIO_ODR;
+	volatile uint32_t GPIO_BSRR;
+	volatile uint32_t GPIO_LCKR;
+	volatile uint32_t GPIO_AFR[2];
 
 }GPIO_RegDef_t;
 
@@ -77,41 +77,41 @@ typedef struct
 
 typedef enum
 {
-	input = 0,
-	output = 1,
-	alternate = 2,
-	analog = 3
+	GPIO_input = 0,
+	GPIO_output = 1,
+	GPIO_alternate = 2,
+	GPIO_analog = 3
 }GPIO_Modes_t;
 
 typedef enum
 {
-	pushPull = 0,
-	openDrain = 1
+	GPIO_pushPull = 0,
+	GPIO_openDrain = 1
 }GPIO_Otypes_t;
 
 typedef enum
 {
-	low = 0,
-	medium = 1,
-	high = 2,
-	veryHigh = 3
+	GPIO_low = 0,
+	GPIO_medium = 1,
+	GPIO_high = 2,
+	GPIO_veryHigh = 3
 }GPIO_Ospeeds_t;
 
 typedef enum
 {
-	noPupd = 0,
-	pu = 1,
-	pd = 2
+	GPIO_noPupd = 0,
+	GPIO_pu = 1,
+	GPIO_pd = 2
 }GPIO_Pupdtypes_t;
 
 
 typedef struct
 {
-	GPIO_Modes_t mode;
-	GPIO_Otypes_t otype;
-	GPIO_Ospeeds_t ospeed;
-	GPIO_Pupdtypes_t pupdtype;
-	uint8_t pinNum;
+	GPIO_Modes_t GPIO_mode;
+	GPIO_Otypes_t GPIO_otype;
+	GPIO_Ospeeds_t GPIO_ospeed;
+	GPIO_Pupdtypes_t GPIO_pupdtype;
+	uint8_t GPIO_pinNum;
 }GPIO_Config_t;
 
 typedef struct
