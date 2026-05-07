@@ -6,3 +6,10 @@
  */
 
 #include "lis3dsh.h"
+#include "stm32f4xx.h"
+
+
+void lis3dsh_init()
+{
+
+}
