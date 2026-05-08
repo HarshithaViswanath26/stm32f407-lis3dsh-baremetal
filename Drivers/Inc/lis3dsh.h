@@ -28,13 +28,18 @@
 #define LIS3DSH_WRITE						0x00		//bit7 = 0
 #define LIS3DSH_MULTI_BYTE					0x40		//bit6 = 1
 
+
+// other macros
+#define LIS3DSH_DUMMY_DATA					0xFF
+
 //for spi comm.
-void lis3dsh_read_reg();
-void lis3dsh_write_reg();
+uint8_t lis3dsh_Read_Reg(uint8_t regName);
+void lis3dsh_Read_WHO_AM_I();
+void lis3dsh_Write_Reg(uint8_t regName, uint8_t val);
 
 
 //implement this only after WHO_AM_I is confirmed working
-void lis3dsh_init();
-void lis3dsh_read_xyz();
+void lis3dsh_Init();
+void lis3dsh_Read_XYZ();
 
 #endif /* INC_LIS3DSH_H_ */

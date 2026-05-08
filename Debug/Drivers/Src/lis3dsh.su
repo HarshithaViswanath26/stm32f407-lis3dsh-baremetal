@@ -1,1 +1,9 @@
-../Drivers/Src/lis3dsh.c:12:6:lis3dsh_init	4	static
+../Drivers/Src/lis3dsh.c:29:13:SPI_GPIOInit	32	static
+../Drivers/Src/lis3dsh.c:45:13:SPI1_Init	16	static
+../Drivers/Src/lis3dsh.c:63:13:lis3dsh_CommEnable	24	static
+../Drivers/Src/lis3dsh.c:85:13:lis3dsh_CSS_Enable	4	static
+../Drivers/Src/lis3dsh.c:91:13:lis3dsh_CSS_Disable	4	static
+../Drivers/Src/lis3dsh.c:97:6:lis3dsh_Read_WHO_AM_I	16	static
+../Drivers/Src/lis3dsh.c:119:9:lis3dsh_Read_Reg	24	static
+../Drivers/Src/lis3dsh.c:139:6:lis3dsh_Write_Reg	24	static
+../Drivers/Src/lis3dsh.c:156:6:lis3dsh_Init	8	static

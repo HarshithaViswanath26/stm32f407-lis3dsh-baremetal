@@ -1,2 +1,1 @@
-../Src/lis3dsh_test.c:17:6:SPI_GPIOInit	2
-../Src/lis3dsh_test.c:33:5:main	1
+../Src/lis3dsh_test.c:20:5:main	1
