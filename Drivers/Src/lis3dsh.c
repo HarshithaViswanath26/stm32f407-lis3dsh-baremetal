@@ -14,6 +14,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 /* Pin configurations for LIS3DSH
 		 * PA5 - SPI1 SCL
@@ -26,6 +27,8 @@
 
 static uint8_t spi1PinSet[] = {GPIOPin5,GPIOPin7,GPIOPin6};
 static GPIO_Handle_t spi1Pins, spi1Css;
+static USART_Handle_t usart2;
+static int8_t buffer[6]; // to hold the low & high values of x,y,z
 
 
 static void SPI_GPIOInit(GPIO_Handle_t* pSPIPin, GPIO_RegDef_t* pGPIOx, uint8_t* pinset, uint8_t AFmode)
@@ -118,7 +121,7 @@ void lis3dsh_Read_WHO_AM_I()
 
 }
 
-uint8_t lis3dsh_Read_Reg(uint8_t regName)
+int8_t lis3dsh_Read_Reg(uint8_t regName)
 {
 	lis3dsh_CommEnable();
 	lis3dsh_CSS_Enable();
@@ -155,6 +158,42 @@ void lis3dsh_Write_Reg(uint8_t regName, uint8_t val)
 	lis3dsh_CSS_Disable();
 }
 
+static void lis3dsh_USART_GpioInit()
+{
+	GPIO_Handle_t usartTx;
+	usartTx.GPIOx = GPIOA;
+	usartTx.pinConfig.GPIO_pinNum = GPIOPin2;
+	usartTx.pinConfig.GPIO_mode = GPIO_alternate;
+	usartTx.pinConfig.GPIO_pinAltFunMode= AF7;
+	usartTx.pinConfig.GPIO_otype = GPIO_pushPull;
+	usartTx.pinConfig.GPIO_pupdtype = GPIO_pu;
+	usartTx.pinConfig.GPIO_ospeed= GPIO_high;
+
+	RCC_AHB1_Init(GpioA, ENABLE);
+	GPIO_Init(&usartTx);
+
+}
+
+static void lis3dsh_Display_USARTInit(USART_Handle_t* usartx)
+{
+	usartx->pUSARTx = USART2;
+	usartx->USART_config.USART_Mode = USART_MODE_TX;
+	usartx->USART_config.USART_StopBits = USART_STOPBITS_1;
+	usartx->USART_config.USART_WordLen = USART_WORDLEN_8bits;
+	usartx->USART_config.USART_ParityCtrl = USART_DI_PARITY;
+	usartx->USART_config.USART_HWFlowCtrl = USART_HWFlowCtrl_None;
+	usartx->USART_config.USART_OverSampling = USART_OVER_16;
+	usartx->USART_config.USART_BaudRate = USART_BAUD_115200;
+
+	RCC_APB1_Init(Usart2, ENABLE);
+	USART_Init(usartx);
+
+	//extremely important!!!!!!!!!
+	USART_EnableComm(USART2);
+
+}
+
+
 void lis3dsh_Init()
 {
 	// Configure reg4,5 & reg3 when interrupts are to be enabled
@@ -167,12 +206,18 @@ void lis3dsh_Init()
 	// configure reg 5, anti-aliasing filter BW is 50Hz for this application
 	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG5, 0xC0);
 
+	lis3dsh_USART_GpioInit();
+	lis3dsh_Display_USARTInit(&usart2);
+
+
 	// configure reg 3 for interrupts
 }
 
+
 void lis3dsh_Read_XYZ()
 {
-		uint8_t buffer[6]; // to hold the low & high values of x,y,z
+
+		char msg[200];
 		buffer[0] = lis3dsh_Read_Reg(LIS3DSH_OUT_X_L);
 		buffer[1] = lis3dsh_Read_Reg(LIS3DSH_OUT_X_H);
 		buffer[2] = lis3dsh_Read_Reg(LIS3DSH_OUT_Y_L);
@@ -180,4 +225,12 @@ void lis3dsh_Read_XYZ()
 		buffer[4] = lis3dsh_Read_Reg(LIS3DSH_OUT_Z_L);
 		buffer[5] = lis3dsh_Read_Reg(LIS3DSH_OUT_Z_H);
 
+		uint32_t x_mg = (((buffer[1] << 8) | buffer[0]) * LIS3DSH_SENSITIVITY);
+		uint32_t y_mg = (((buffer[3] << 8) | buffer[2]) * LIS3DSH_SENSITIVITY);
+		uint32_t z_mg = (((buffer[5] << 8) | buffer[4]) * LIS3DSH_SENSITIVITY);
+
+		sprintf(msg, "X: %lu ------- Y: %lu ------- Z: %lu\r\n", x_mg, y_mg, z_mg);
+		USART_SendData(&usart2, (uint8_t*)&msg, strlen(msg));
 }
+
+

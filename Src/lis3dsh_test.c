@@ -15,11 +15,19 @@
 #include <stdint.h>
 
 
+void delay()
+{
 
+	for(uint32_t i = 0; i < 500000; i++);
+}
 
 int main(void)
 {
 	lis3dsh_Init();
-	lis3dsh_Read_XYZ();
+	while(1)
+	{
+		lis3dsh_Read_XYZ();
+	}
+		//delay();
 	return 0;
 }

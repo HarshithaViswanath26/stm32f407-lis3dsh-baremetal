@@ -9,6 +9,7 @@
 #define INC_LIS3DSH_H_
 
 #include "stm32f4xx.h"
+#include <stdint.h>
 
 #define LIS3DSH_WHO_AM_I					0x0F
 #define LIS3DSH_CTRL_REG4					0x20
@@ -31,9 +32,10 @@
 
 // other macros
 #define LIS3DSH_DUMMY_DATA					0xFF
+#define LIS3DSH_SENSITIVITY					60  // (0.06 * 1000) microg
 
 //for spi comm.
-uint8_t lis3dsh_Read_Reg(uint8_t regName);
+int8_t lis3dsh_Read_Reg(uint8_t regName);
 void lis3dsh_Read_WHO_AM_I();
 void lis3dsh_Write_Reg(uint8_t regName, uint8_t val);
 
