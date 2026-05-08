@@ -20,6 +20,6 @@
 int main(void)
 {
 	lis3dsh_Init();
-	lis3dsh_Read_Reg(LIS3DSH_CTRL_REG5);
+	lis3dsh_Read_XYZ();
 	return 0;
 }

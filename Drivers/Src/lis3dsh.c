@@ -10,8 +10,10 @@
 #include "rcc.h"
 #include "spi.h"
 #include "gpio.h"
+#include "usart.h"
 
 #include <stdint.h>
+#include <stdio.h>
 
 /* Pin configurations for LIS3DSH
 		 * PA5 - SPI1 SCL
@@ -160,10 +162,22 @@ void lis3dsh_Init()
 	// ODR = 100Hz
 	// BDU = 1
 	// rest are to default val : see lis3dsh datasheet
-	//lis3dsh_Write_Reg(LIS3DSH_CTRL_REG4, 0x6F);
+	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG4, 0x6F);
 
 	// configure reg 5, anti-aliasing filter BW is 50Hz for this application
 	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG5, 0xC0);
 
 	// configure reg 3 for interrupts
+}
+
+void lis3dsh_Read_XYZ()
+{
+		uint8_t buffer[6]; // to hold the low & high values of x,y,z
+		buffer[0] = lis3dsh_Read_Reg(LIS3DSH_OUT_X_L);
+		buffer[1] = lis3dsh_Read_Reg(LIS3DSH_OUT_X_H);
+		buffer[2] = lis3dsh_Read_Reg(LIS3DSH_OUT_Y_L);
+		buffer[3] = lis3dsh_Read_Reg(LIS3DSH_OUT_Y_H);
+		buffer[4] = lis3dsh_Read_Reg(LIS3DSH_OUT_Z_L);
+		buffer[5] = lis3dsh_Read_Reg(LIS3DSH_OUT_Z_H);
+
 }
