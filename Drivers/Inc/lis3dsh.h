@@ -35,7 +35,7 @@
 #define LIS3DSH_SENSITIVITY					60  // (0.06 * 1000) microg
 
 //for spi comm.
-int8_t lis3dsh_Read_Reg(uint8_t regName);
+uint8_t lis3dsh_Read_Reg(uint8_t regName);
 void lis3dsh_Read_WHO_AM_I();
 void lis3dsh_Write_Reg(uint8_t regName, uint8_t val);
 

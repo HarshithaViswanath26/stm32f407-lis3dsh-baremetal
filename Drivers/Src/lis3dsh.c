@@ -28,7 +28,8 @@
 static uint8_t spi1PinSet[] = {GPIOPin5,GPIOPin7,GPIOPin6};
 static GPIO_Handle_t spi1Pins, spi1Css;
 static USART_Handle_t usart2;
-static int8_t buffer[6]; // to hold the low & high values of x,y,z
+static GPIO_Handle_t ledGreen, ledOrange, ledRed, ledBlue;
+static uint8_t buffer[6]; // to hold the low & high values of x,y,z
 
 
 static void SPI_GPIOInit(GPIO_Handle_t* pSPIPin, GPIO_RegDef_t* pGPIOx, uint8_t* pinset, uint8_t AFmode)
@@ -52,8 +53,8 @@ static void SPI1_Init(SPI_Handle_t* pHandle)
 	pHandle->pSPIx = SPI1;
 	pHandle->spiConfig.SPI_mstr = SPI_master;
 	pHandle->spiConfig.SPI_busConfig = SPI_FULLDUPLEX_MODE;
-	pHandle->spiConfig.SPI_cpha = SPI_cpha0;
-	pHandle->spiConfig.SPI_cpol = SPI_cpol0;
+	pHandle->spiConfig.SPI_cpha = SPI_cpha1;   //lis3dsh has these configs
+	pHandle->spiConfig.SPI_cpol = SPI_cpol1;   //lis3dsh has these configs
 	pHandle->spiConfig.SPI_dff = SPI_dframe8;
 	pHandle->spiConfig.SPI_ssm = SPI_ssmDi;
 	//pHandle.SPIConfig.SPI_SSI = SPI_SSI_DI;
@@ -105,7 +106,7 @@ void lis3dsh_Read_WHO_AM_I()
 		// CSS PE3 pin is pulled Low
 		lis3dsh_CSS_Enable();
 
-		uint8_t dataReceived;
+		int8_t dataReceived;
 		uint8_t dataSent = 0x8F;
 	    SPI_SendData(SPI1, &dataSent, sizeof(dataSent));
 	    SPI_ReceiveData(SPI1, &dataReceived, sizeof(dataReceived));
@@ -121,9 +122,8 @@ void lis3dsh_Read_WHO_AM_I()
 
 }
 
-int8_t lis3dsh_Read_Reg(uint8_t regName)
+uint8_t lis3dsh_Read_Reg(uint8_t regName)
 {
-	lis3dsh_CommEnable();
 	lis3dsh_CSS_Enable();
 
 	uint8_t regNameSent = (regName | LIS3DSH_READ);
@@ -143,7 +143,6 @@ int8_t lis3dsh_Read_Reg(uint8_t regName)
 
 void lis3dsh_Write_Reg(uint8_t regName, uint8_t val)
 {
-	lis3dsh_CommEnable();
 	lis3dsh_CSS_Enable();
 
 	uint8_t writeData = (regName | LIS3DSH_WRITE);
@@ -196,6 +195,7 @@ static void lis3dsh_Display_USARTInit(USART_Handle_t* usartx)
 
 void lis3dsh_Init()
 {
+	lis3dsh_CommEnable();
 	// Configure reg4,5 & reg3 when interrupts are to be enabled
 	// configure reg4
 	// ODR = 100Hz
@@ -206,6 +206,7 @@ void lis3dsh_Init()
 	// configure reg 5, anti-aliasing filter BW is 50Hz for this application
 	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG5, 0xC0);
 
+
 	lis3dsh_USART_GpioInit();
 	lis3dsh_Display_USARTInit(&usart2);
 
@@ -213,11 +214,94 @@ void lis3dsh_Init()
 	// configure reg 3 for interrupts
 }
 
+void lis3dsh_LED_Init()
+{
+	RCC_AHB1_Init(GpioD, ENABLE);
+
+	ledGreen.GPIOx = GPIOD;
+	ledGreen.pinConfig.GPIO_mode = GPIO_output;
+	ledGreen.pinConfig.GPIO_ospeed = GPIO_high;
+	ledGreen.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledGreen.pinConfig.GPIO_pinNum = GPIOPin12;
+	ledGreen.pinConfig.GPIO_pupdtype = GPIO_noPupd;
+
+	ledOrange.GPIOx = GPIOD;
+	ledOrange.pinConfig.GPIO_mode = GPIO_output;
+	ledOrange.pinConfig.GPIO_ospeed = GPIO_high;
+	ledOrange.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledOrange.pinConfig.GPIO_pinNum = GPIOPin13;
+	ledOrange.pinConfig.GPIO_pupdtype = GPIO_noPupd;
+
+
+	ledRed.GPIOx = GPIOD;
+	ledRed.pinConfig.GPIO_mode = GPIO_output;
+	ledRed.pinConfig.GPIO_ospeed = GPIO_high;
+	ledRed.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledRed.pinConfig.GPIO_pinNum = GPIOPin14;
+	ledRed.pinConfig.GPIO_pupdtype = GPIO_noPupd;
+
+
+	ledBlue.GPIOx = GPIOD;
+	ledBlue.pinConfig.GPIO_mode = GPIO_output;
+	ledBlue.pinConfig.GPIO_ospeed = GPIO_high;
+	ledBlue.pinConfig.GPIO_otype = GPIO_pushPull;
+	ledBlue.pinConfig.GPIO_pinNum = GPIOPin15;
+	ledBlue.pinConfig.GPIO_pupdtype = GPIO_noPupd;
+
+	GPIO_Init(&ledRed);
+	GPIO_Init(&ledBlue);
+	GPIO_Init(&ledOrange);
+	GPIO_Init(&ledGreen);
+}
+
+static void lis3dsh_Green_ON()
+{
+	GPIO_Led_OFF(&ledBlue);
+	GPIO_Led_OFF(&ledOrange);
+	GPIO_Led_OFF(&ledRed);
+	GPIO_Led_ON(&ledGreen);
+
+}
+
+static void lis3dsh_Blue_ON()
+{
+	GPIO_Led_ON(&ledBlue);
+	GPIO_Led_OFF(&ledOrange);
+	GPIO_Led_OFF(&ledRed);
+	GPIO_Led_OFF(&ledGreen);
+
+}
+
+static void lis3dsh_Orange_ON()
+{
+	GPIO_Led_OFF(&ledBlue);
+	GPIO_Led_ON(&ledOrange);
+	GPIO_Led_OFF(&ledRed);
+	GPIO_Led_OFF(&ledGreen);
+
+}
+
+static void lis3dsh_Red_ON()
+{
+	GPIO_Led_OFF(&ledBlue);
+	GPIO_Led_OFF(&ledOrange);
+	GPIO_Led_ON(&ledRed);
+	GPIO_Led_OFF(&ledGreen);
+
+}
+
 
 void lis3dsh_Read_XYZ()
 {
+		lis3dsh_LED_Init();
+		GPIO_Led_ON(&ledBlue);
+		GPIO_Led_ON(&ledOrange);
+		GPIO_Led_ON(&ledRed);
+		GPIO_Led_ON(&ledGreen);
+
 
 		char msg[200];
+
 		buffer[0] = lis3dsh_Read_Reg(LIS3DSH_OUT_X_L);
 		buffer[1] = lis3dsh_Read_Reg(LIS3DSH_OUT_X_H);
 		buffer[2] = lis3dsh_Read_Reg(LIS3DSH_OUT_Y_L);
@@ -225,12 +309,37 @@ void lis3dsh_Read_XYZ()
 		buffer[4] = lis3dsh_Read_Reg(LIS3DSH_OUT_Z_L);
 		buffer[5] = lis3dsh_Read_Reg(LIS3DSH_OUT_Z_H);
 
-		uint32_t x_mg = (((buffer[1] << 8) | buffer[0]) * LIS3DSH_SENSITIVITY);
-		uint32_t y_mg = (((buffer[3] << 8) | buffer[2]) * LIS3DSH_SENSITIVITY);
-		uint32_t z_mg = (((buffer[5] << 8) | buffer[4]) * LIS3DSH_SENSITIVITY);
+		int16_t x = (int16_t)(((buffer[1] << 8) | buffer[0]));
+		int16_t y = (int16_t)(((buffer[3] << 8) | buffer[2]));
+		int16_t z = (int16_t)(((buffer[5] << 8) | buffer[4]));
 
-		sprintf(msg, "X: %lu ------- Y: %lu ------- Z: %lu\r\n", x_mg, y_mg, z_mg);
+		int32_t x_mg = (int32_t)(x*LIS3DSH_SENSITIVITY);
+		int32_t y_mg = (int32_t)(y*LIS3DSH_SENSITIVITY);
+		int32_t z_mg = (int32_t)(z*LIS3DSH_SENSITIVITY);
+
+		if(x_mg > 300)
+			lis3dsh_Red_ON(); // right tilt
+		else if(x_mg < -300)
+			lis3dsh_Green_ON(); // left tilt
+		else if(y_mg > 300)
+			lis3dsh_Blue_ON(); // forward tilt
+		else if(y_mg < 300)
+			lis3dsh_Orange_ON(); // backward tilt
+
+		/*char debug[50];
+		uint8_t val = lis3dsh_Read_Reg(LIS3DSH_STATUS);
+		sprintf(debug, "%x\r\n", val);
+		USART_SendData(&usart2, (uint8_t*)debug, strlen(debug));*/
+
+		//char debug[50];
+		//sprintf(debug, "buf: %u %u %u %u %u %u\r\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
+		//USART_SendData(&usart2, (uint8_t*)debug, strlen(debug));
+
+		sprintf(msg, "X: %ldmicrog ------- Y: %ldmicrog ------- Z: %ldmicrog\r\n", x_mg, y_mg, z_mg);
 		USART_SendData(&usart2, (uint8_t*)&msg, strlen(msg));
+
+
+
 }
 
 

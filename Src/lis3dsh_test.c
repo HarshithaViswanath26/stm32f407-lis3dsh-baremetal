@@ -24,10 +24,10 @@ void delay()
 int main(void)
 {
 	lis3dsh_Init();
-	while(1)
-	{
-		lis3dsh_Read_XYZ();
-	}
+	//lis3dsh_Write_Reg(LIS3DSH_CTRL_REG4, 0x6F);
+	//lis3dsh_Read_Reg(LIS3DSH_CTRL_REG4);
+	lis3dsh_Read_XYZ();
+
 		//delay();
 	return 0;
 }
