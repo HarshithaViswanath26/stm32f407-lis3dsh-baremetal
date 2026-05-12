@@ -1,3 +1,4 @@
+"./Drivers/Src/exti.o"
 "./Drivers/Src/gpio.o"
 "./Drivers/Src/lis3dsh.o"
 "./Drivers/Src/rcc.o"

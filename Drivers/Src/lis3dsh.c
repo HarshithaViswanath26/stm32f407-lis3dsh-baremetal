@@ -73,12 +73,15 @@ static void lis3dsh_CommEnable()
 		SPI_GPIOInit(&spi1Pins, GPIOA, spi1PinSet, AF5);
 
 		RCC_AHB1_Init(GpioE, ENABLE);
-		spi1Css.GPIOx = GPIOE;
+		spi1Css.GPIOx = GPIOE; 		// for interrupt this should be input
+		spi1Css.pinConfig.GPIO_mode = GPIO_input;
+		spi1Css.pinConfig.GPIO_pinNum = GPIOPin3;
+		/*spi1Css.GPIOx = GPIOE;
 		spi1Css.pinConfig.GPIO_mode = GPIO_output;
 		spi1Css.pinConfig.GPIO_pinNum = GPIOPin3;
 		spi1Css.pinConfig.GPIO_ospeed = GPIO_high;
 		spi1Css.pinConfig.GPIO_otype = GPIO_pushPull;
-		spi1Css.pinConfig.GPIO_pupdtype = GPIO_pu;
+		spi1Css.pinConfig.GPIO_pupdtype = GPIO_pu;*/
 
 		GPIO_Init(&spi1Css);
 
@@ -106,7 +109,7 @@ void lis3dsh_Read_WHO_AM_I()
 		// CSS PE3 pin is pulled Low
 		lis3dsh_CSS_Enable();
 
-		int8_t dataReceived;
+		uint8_t dataReceived;
 		uint8_t dataSent = 0x8F;
 	    SPI_SendData(SPI1, &dataSent, sizeof(dataSent));
 	    SPI_ReceiveData(SPI1, &dataReceived, sizeof(dataReceived));
@@ -212,6 +215,7 @@ void lis3dsh_Init()
 
 
 	// configure reg 3 for interrupts
+	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG3, 0x88);
 }
 
 void lis3dsh_LED_Init()

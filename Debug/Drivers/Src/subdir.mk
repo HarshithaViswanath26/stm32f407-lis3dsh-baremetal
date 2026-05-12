@@ -5,6 +5,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Drivers/Src/exti.c \
 ../Drivers/Src/gpio.c \
 ../Drivers/Src/lis3dsh.c \
 ../Drivers/Src/rcc.c \
@@ -12,6 +13,7 @@ C_SRCS += \
 ../Drivers/Src/usart.c 
 
 OBJS += \
+./Drivers/Src/exti.o \
 ./Drivers/Src/gpio.o \
 ./Drivers/Src/lis3dsh.o \
 ./Drivers/Src/rcc.o \
@@ -19,6 +21,7 @@ OBJS += \
 ./Drivers/Src/usart.o 
 
 C_DEPS += \
+./Drivers/Src/exti.d \
 ./Drivers/Src/gpio.d \
 ./Drivers/Src/lis3dsh.d \
 ./Drivers/Src/rcc.d \
@@ -33,7 +36,7 @@ Drivers/Src/%.o Drivers/Src/%.su Drivers/Src/%.cyclo: ../Drivers/Src/%.c Drivers
 clean: clean-Drivers-2f-Src
 
 clean-Drivers-2f-Src:
-	-$(RM) ./Drivers/Src/gpio.cyclo ./Drivers/Src/gpio.d ./Drivers/Src/gpio.o ./Drivers/Src/gpio.su ./Drivers/Src/lis3dsh.cyclo ./Drivers/Src/lis3dsh.d ./Drivers/Src/lis3dsh.o ./Drivers/Src/lis3dsh.su ./Drivers/Src/rcc.cyclo ./Drivers/Src/rcc.d ./Drivers/Src/rcc.o ./Drivers/Src/rcc.su ./Drivers/Src/spi.cyclo ./Drivers/Src/spi.d ./Drivers/Src/spi.o ./Drivers/Src/spi.su ./Drivers/Src/usart.cyclo ./Drivers/Src/usart.d ./Drivers/Src/usart.o ./Drivers/Src/usart.su
+	-$(RM) ./Drivers/Src/exti.cyclo ./Drivers/Src/exti.d ./Drivers/Src/exti.o ./Drivers/Src/exti.su ./Drivers/Src/gpio.cyclo ./Drivers/Src/gpio.d ./Drivers/Src/gpio.o ./Drivers/Src/gpio.su ./Drivers/Src/lis3dsh.cyclo ./Drivers/Src/lis3dsh.d ./Drivers/Src/lis3dsh.o ./Drivers/Src/lis3dsh.su ./Drivers/Src/rcc.cyclo ./Drivers/Src/rcc.d ./Drivers/Src/rcc.o ./Drivers/Src/rcc.su ./Drivers/Src/spi.cyclo ./Drivers/Src/spi.d ./Drivers/Src/spi.o ./Drivers/Src/spi.su ./Drivers/Src/usart.cyclo ./Drivers/Src/usart.d ./Drivers/Src/usart.o ./Drivers/Src/usart.su
 
 .PHONY: clean-Drivers-2f-Src
 

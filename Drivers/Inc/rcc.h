@@ -69,7 +69,7 @@ typedef enum
 	ADC3 = 10,
 	SDIO = 11,
 	Spi1 = 12,
-	SYSCFG = 14,
+	Syscfg = 14,
 	TIM9 = 16,
 	TIM10 = 17,
 	TIM11 = 18

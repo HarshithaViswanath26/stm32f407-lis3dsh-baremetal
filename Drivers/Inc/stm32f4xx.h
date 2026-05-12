@@ -5,6 +5,8 @@
 
 #define __vo volatile
 
+#define STM32_IMPLEMENTED_BITS				4U
+
 #define FLASH_BASEADDR		0x80000000U
 #define SRAM1_BASEADDR		0x20000000U
 #define SRAM2_BASEADDR		0x2001C000U

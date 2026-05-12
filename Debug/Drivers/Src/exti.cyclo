@@ -1,0 +1,4 @@
+../Drivers/Src/exti.c:11:6:Interrupt_Init	13
+../Drivers/Src/exti.c:42:6:NVIC_IRQConfig	13
+../Drivers/Src/exti.c:67:6:NVIC_IRQPriorityConfig	1
+../Drivers/Src/exti.c:78:6:NVIC_IRQHandling	2
