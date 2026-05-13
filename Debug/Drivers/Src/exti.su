@@ -1,4 +1,5 @@
 ../Drivers/Src/exti.c:11:6:Interrupt_Init	24	static
-../Drivers/Src/exti.c:42:6:NVIC_IRQConfig	16	static
-../Drivers/Src/exti.c:67:6:NVIC_IRQPriorityConfig	24	static
-../Drivers/Src/exti.c:78:6:NVIC_IRQHandling	16	static
+../Drivers/Src/exti.c:43:6:NVIC_IRQConfig	16	static
+../Drivers/Src/exti.c:68:6:NVIC_IRQPriorityConfig	24	static
+../Drivers/Src/exti.c:79:6:NVIC_IRQHandling	16	static
+../Drivers/Src/exti.c:88:9:EXTI_IntStatus	16	static

@@ -33,6 +33,7 @@ void Interrupt_Init(Interrupt_Handle_t* pIntHandle)
 	uint8_t pos = ((pIntHandle->pGpioHandle->pinConfig.GPIO_pinNum%4) * 4);
 	uint8_t val = PORT_TO_VAL(pIntHandle->pGpioHandle->GPIOx);
 
+	SYSCFG->SYSCFG_EXTICR[reg] &= ~(0xFU << pos);
 	SYSCFG->SYSCFG_EXTICR[reg] |= (val << pos);
 
 	// configure IMR after interrupt config
@@ -82,6 +83,11 @@ void NVIC_IRQHandling(uint8_t pinNum)
 	{
 		EXTI->EXTI_PR |= (1U << pinNum);
 	}
+}
+
+uint8_t EXTI_IntStatus(uint8_t pinNum)
+{
+	return (EXTI->EXTI_PR & (1U << pinNum) ? 1 : 0);
 }
 
 // implement the EXTI handler wherever needed

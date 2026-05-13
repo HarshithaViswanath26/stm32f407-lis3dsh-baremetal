@@ -29,12 +29,13 @@
 
 typedef struct
 {
+	volatile uint32_t SYSCFG_MEMRMP;
 	volatile uint32_t SYSCFG_PMC;
 	volatile uint32_t SYSCFG_EXTICR[4];
 	uint32_t RESERVED1[2];
 	volatile uint32_t SYSCFG_CMPCR;
-	uint32_t RESERVED2[2];
-	volatile uint32_t CFGR;
+	//uint32_t RESERVED2[2];
+	//volatile uint32_t CFGR;
 }Syscfg_RegDef_t;
 
 typedef struct
@@ -87,9 +88,10 @@ typedef struct
 									(x==GPIOI) ? 8 :0)
 
 void Interrupt_Init(Interrupt_Handle_t* pIntHandle);			// MCU - peripheral side
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t EnorDi);			// NVIC - processor side
-void GPIO_IRQPriorityConfig (uint8_t IRQNumber, uint8_t IRQPriority);
-void GPIO_IRQHandling (uint8_t PinNumber);
+void NVIC_IRQConfig(uint8_t IRQNumber, uint8_t EnorDi);			// NVIC - processor side
+void NVIC_IRQPriorityConfig (uint8_t IRQNumber, uint8_t IRQPriority);
+void NVIC_IRQHandling (uint8_t PinNumber);
+uint8_t EXTI_IntStatus(uint8_t pinNum);
 
 
 #endif /* INC_EXTI_H_ */

@@ -11,6 +11,7 @@
 #include "spi.h"
 #include "gpio.h"
 #include "usart.h"
+#include "exti.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -73,15 +74,12 @@ static void lis3dsh_CommEnable()
 		SPI_GPIOInit(&spi1Pins, GPIOA, spi1PinSet, AF5);
 
 		RCC_AHB1_Init(GpioE, ENABLE);
-		spi1Css.GPIOx = GPIOE; 		// for interrupt this should be input
-		spi1Css.pinConfig.GPIO_mode = GPIO_input;
-		spi1Css.pinConfig.GPIO_pinNum = GPIOPin3;
-		/*spi1Css.GPIOx = GPIOE;
+		spi1Css.GPIOx = GPIOE;
 		spi1Css.pinConfig.GPIO_mode = GPIO_output;
 		spi1Css.pinConfig.GPIO_pinNum = GPIOPin3;
 		spi1Css.pinConfig.GPIO_ospeed = GPIO_high;
 		spi1Css.pinConfig.GPIO_otype = GPIO_pushPull;
-		spi1Css.pinConfig.GPIO_pupdtype = GPIO_pu;*/
+		spi1Css.pinConfig.GPIO_pupdtype = GPIO_pu;
 
 		GPIO_Init(&spi1Css);
 
@@ -105,7 +103,7 @@ static void lis3dsh_CSS_Disable()
 
 void lis3dsh_Read_WHO_AM_I()
 {
-		lis3dsh_CommEnable();
+		//lis3dsh_CommEnable();
 		// CSS PE3 pin is pulled Low
 		lis3dsh_CSS_Enable();
 
@@ -215,7 +213,7 @@ void lis3dsh_Init()
 
 
 	// configure reg 3 for interrupts
-	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG3, 0x88);
+	lis3dsh_Write_Reg(LIS3DSH_CTRL_REG3, 0xC8);
 }
 
 void lis3dsh_LED_Init()
@@ -346,4 +344,36 @@ void lis3dsh_Read_XYZ()
 
 }
 
+void lis3dsh_INT1_Init()
+{
+	// see schematics: INT1 occurs on PE0
+	// Configure PE0 to process the interrupt
+	GPIO_Handle_t int1Pin;
 
+	RCC_AHB1_Init(GpioE, ENABLE);
+
+	int1Pin.GPIOx = GPIOE;
+	int1Pin.pinConfig.GPIO_mode = GPIO_input;
+	int1Pin.pinConfig.GPIO_pupdtype = GPIO_noPupd; // LIS3DSH interrupt output is active high, push-pull by default.
+	int1Pin.pinConfig.GPIO_pinNum = GPIOPin0;
+	GPIO_Init(&int1Pin);
+
+	Interrupt_Handle_t ext0;
+
+	RCC_APB2_Init(Syscfg, ENABLE);
+	ext0.Exti_triggerMode = EXTI_FALLING_TRIGGER_ONLY;  // why rising??
+	ext0.pGpioHandle = &int1Pin;
+	Interrupt_Init(&ext0);
+
+	NVIC_IRQConfig(EXTI0, ENABLE);
+	NVIC_IRQPriorityConfig(EXTI0, EXTI0_PRIORITY);
+
+	uint8_t pendVal = EXTI_IntStatus(GPIOPin0);
+}
+
+void EXTI0_IRQHandler()
+{
+	//NVIC_IRQHandling(GPIOPin0);
+	lis3dsh_Read_XYZ();
+
+}

@@ -44,4 +44,7 @@ void lis3dsh_Write_Reg(uint8_t regName, uint8_t val);
 void lis3dsh_Init();
 void lis3dsh_Read_XYZ();
 
+
+void lis3dsh_INT1_Init();
+
 #endif /* INC_LIS3DSH_H_ */
