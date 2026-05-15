@@ -117,6 +117,7 @@ typedef enum
 
 #define SPI_RXNE_FLAG				(1U << 0)
 #define SPI_TXE_FLAG				(1U << 1)
+#define SPI_BSY_FLAG				(1U << 7)
 
 void SPI_Init(SPI_Handle_t* pHandle);
 

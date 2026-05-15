@@ -1,14 +1,20 @@
-# Build output directories
+# CubeMX generated — do not track
+*.ioc
+
+# Build output
 Debug/
 Release/
-
-# Object and dependency files
-*.o
-*.d
-
-# Binary output files
 *.elf
+*.hex
 *.bin
+*.map
+*.list
+
+# IDE metadata
+.settings/
+.cproject
+.project
+*.launch
 
 
 # commit your source code, ignore your build output.
