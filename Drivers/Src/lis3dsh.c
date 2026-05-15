@@ -273,9 +273,14 @@ void lis3dsh_LED_Init()
 	GPIO_Init(&ledBlue);
 	GPIO_Init(&ledOrange);
 	GPIO_Init(&ledGreen);
+
+	GPIO_Led_ON(&ledBlue);
+	GPIO_Led_ON(&ledRed);
+	GPIO_Led_ON(&ledOrange);
+	GPIO_Led_ON(&ledGreen);
 }
 
-/*void lis3dsh_Green_ON()
+void lis3dsh_Green_ON()
 {
 	GPIO_Led_OFF(&ledBlue);
 	GPIO_Led_OFF(&ledOrange);
@@ -310,7 +315,7 @@ void lis3dsh_Red_ON()
 	GPIO_Led_OFF(&ledGreen);
 
 }
-*/
+
 
 void lis3dsh_Read_XYZ()
 {

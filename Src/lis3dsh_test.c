@@ -25,6 +25,7 @@ volatile uint8_t dataReady = 0;
 int main(void)
 {
 	lis3dsh_Init();
+	lis3dsh_LED_Init();
 	//lis3dsh_LED_Init();
 	//lis3dsh_Write_Reg(LIS3DSH_CTRL_REG4, 0x2F);  // BDU=0
 	//uint8_t r3 = lis3dsh_Read_Reg(0xE8 & 0x7F);//lis3dsh_Read_Reg(LIS3DSH_CTRL_REG3);
@@ -32,7 +33,7 @@ int main(void)
 	//uint8_t r2 = lis3dsh_Read_Reg(0x25);
 	//uint8_t s1 = lis3dsh_Read_Reg(LIS3DSH_STATUS);
 	lis3dsh_Read_XYZ();
-	uint8_t s2 = lis3dsh_Read_Reg(LIS3DSH_WHO_AM_I);
+	//uint8_t s2 = lis3dsh_Read_Reg(LIS3DSH_WHO_AM_I);
 	lis3dsh_INT1_Init();
 	//uint8_t valReg = lis3dsh_Read_Reg(LIS3DSH_STATUS);
 
@@ -55,6 +56,14 @@ int main(void)
 
 			sprintf(msg, "X: %ldmicrog -------  Y: %ldmicrog ------- Z: %ldmicrog\r\n", x_mg, y_mg, z_mg);
 			USART_SendData(&usart2, (uint8_t*)msg, strlen(msg));
+
+			int32_t x_comp = x_mg - X_OFFSET;
+			int32_t y_comp = y_mg - Y_OFFSET;
+
+			if(x_comp > 300000)       lis3dsh_Red_ON();    // tilt right
+			else if(x_comp < -300000) lis3dsh_Green_ON();  // tilt left
+			else if(y_comp > 300000)  lis3dsh_Orange_ON();   // tilt forward
+			else if(y_comp < -300000) lis3dsh_Blue_ON(); // tilt backward
 
 
 		}

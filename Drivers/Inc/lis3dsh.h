@@ -41,6 +41,12 @@
 #define LIS3DSH_DUMMY_DATA					0xFF
 #define LIS3DSH_SENSITIVITY					60  // (0.06 * 1000) microg
 
+// tilt threshold, based on a set of initial readings
+#define X_OFFSET  1500
+#define Y_OFFSET  238000
+
+
+
 static uint8_t spi1PinSet[];
 static GPIO_Handle_t spi1Pins, spi1Css;
 extern USART_Handle_t usart2;
